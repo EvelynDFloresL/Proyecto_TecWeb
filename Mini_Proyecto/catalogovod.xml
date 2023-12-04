@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xml-stylesheet href="catalogovod.xsl" type="text/xsl"?>
+<CatalogoVOD>
+    <cuenta correo="evelyn.floresl@gmail.com">
+        <perfiles>
+            <perfil usuario="Evelyn Flores" idioma="Español" />
+        </perfiles>
+    </cuenta>
+    <contenido>
+        <peliculas region="MEX">
+            <genero nombre="Ciencia Ficcion">
+                <titulo duracion="01:40:00">Blade Runner</titulo>
+                <titulo duracion="02:06:00">Indiana Jones</titulo>
+            </genero>
+            <genero nombre="Romance">
+                <titulo duracion="02:04:00">Amor entre dos extremos</titulo>
+                <titulo duracion="01:42:00">La La Land</titulo>
+            </genero>
+        </peliculas>
+        <series region="MEX">
+            <genero nombre="Animacion">
+                <titulo duracion="00:40:00">Hora de aventura</titulo>
+                <titulo duracion="00:40:00">Gravity Falls</titulo>
+            </genero>
+            <genero nombre="Suspenso">
+                <titulo duracion="00:45:00">Stranger Things</titulo>
+                <titulo duracion="00:50:00">El juego del calamar</titulo>
+            </genero>
+        </series>
+    </contenido>
+</CatalogoVOD>
