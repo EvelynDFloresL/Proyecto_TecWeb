@@ -8,8 +8,8 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
 </head>
 
-<body class="bg-light">
-<nav class="navbar navbar-expand-lg navbar-light bg-info">
+<body  style="background-color: #d7e3fc;">
+    <nav class="navbar navbar-expand-lg navbar-light bg-info">
         <div class="container-fluid">
             <a class="navbar-brand" href="#">
                 Catálogo VOD
@@ -69,84 +69,133 @@
             foreach ($peliculas as $pelicula) {
                 $region = $pelicula->getAttribute('region');
         ?>
-                <h2 class="mt-4 mb-3">Películas (<?php echo $region; ?>)</h2>
+                <div class="row">
+                    <div class="col-md-4">
+                        <form class="p-4 rounded" style="background-color: #88d1ca;">
+                            <div class="mb-3">
+                                <label for="tipo" class="form-label">Tipo</label>
+                                <select class="form-select" id="tipo" name="tipo">
+                                    <option value="pelicula">Película</option>
+                                    <option value="serie">Serie</option>
+                                </select>
+                            </div>
+                            <div class="mb-3">
+                                <label for="region" class="form-label">Región</label>
+                                <input type="text" class="form-control" id="region" name="region">
+                            </div>
+                            <div class="mb-3">
+                                <label for="genero" class="form-label">Género</label>
+                                <input type="text" class="form-control" id="genero" name="genero">
+                            </div>
+                            <div class="mb-3">
+                                <label for="titulo" class="form-label">Título</label>
+                                <input type="text" class="form-control" id="titulo" name="titulo">
+                            </div>
+                            <div class="mb-3">
+                                <label for="duracion" class="form-label">Duración</label>
+                                <input type="text" class="form-control" id="duracion" name="duracion">
+                            </div>
+                            <button type="submit" class="btn btn-primary">Enviar</button>
+                        </form>
+                    </div>
 
-                <div class="table-responsive">
-                    <table class="table table-primary">
-                        <thead>
-                            <tr>
-                                <th>Género</th>
-                                <th>Título</th>
-                                <th>Duración</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <?php
-                            $generos = $pelicula->getElementsByTagName('genero');
-                            foreach ($generos as $genero) {
-                                $nombreGenero = $genero->getAttribute('nombre');
+                    <div class="col-md-8">
+                        <h2 class="mt-4 mb-3">Películas</h2>
 
-                                $titulos = $genero->getElementsByTagName('titulo');
-                                foreach ($titulos as $titulo) {
-                                    $duracion = $titulo->getAttribute('duracion');
-                                    $nombreTitulo = $titulo->nodeValue;
-                            ?>
+                        <div class="table-responsive">
+                            <table class="table " style="background-color: #c09891;">
+                                <thead>
                                     <tr>
-                                        <td><?php echo $nombreGenero; ?></td>
-                                        <td><?php echo $nombreTitulo; ?></td>
-                                        <td><?php echo $duracion; ?></td>
+                                        <th>ID</th>
+                                        <th>Región</th>
+                                        <th>Género</th>
+                                        <th>Título</th>
+                                        <th>Duración</th>
+                                        <th> </th>
                                     </tr>
-                            <?php
-                                }
-                            }
-                            ?>
-                        </tbody>
-                    </table>
-                </div>
+                                </thead>
+                                <tbody>
+                                    <?php
+                                    $generos = $pelicula->getElementsByTagName('genero');
+                                    foreach ($generos as $genero) {
+                                        $nombreGenero = $genero->getAttribute('nombre');
 
-                <h2 class="mt-4 mb-3">Series (<?php echo $region; ?>)</h2>
-
-                <div class="table-responsive">
-                    <table class="table table-striped table-info">
-                        <thead>
-                            <tr>
-                                <th>Género</th>
-                                <th>Título</th>
-                                <th>Duración</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <?php
-                            $series = $cont->getElementsByTagName('series');
-                            foreach ($series as $serie) {
-                                $generos = $serie->getElementsByTagName('genero');
-                                foreach ($generos as $genero) {
-                                    $nombreGenero = $genero->getAttribute('nombre');
-                                    $titulos = $genero->getElementsByTagName('titulo');
-                                    foreach ($titulos as $titulo) {
-                                        $duracion = $titulo->getAttribute('duracion');
-                                        $nombreTitulo = $titulo->nodeValue;
-                            ?>
-                                        <tr>
-                                            <td><?php echo $nombreGenero; ?></td>
-                                            <td><?php echo $nombreTitulo; ?></td>
-                                            <td><?php echo $duracion; ?></td>
-                                        </tr>
-                            <?php
+                                        $titulos = $genero->getElementsByTagName('titulo');
+                                        foreach ($titulos as $titulo) {
+                                            $duracion = $titulo->getAttribute('duracion');
+                                            $nombreTitulo = $titulo->nodeValue;
+                                    ?>
+                                            <tr>
+                                                <td>Poner id aqui</td>
+                                                <td><?php echo $region; ?></td>
+                                                <td><?php echo $nombreGenero; ?></td>
+                                                <td><?php echo $nombreTitulo; ?></td>
+                                                <td><?php echo $duracion; ?></td>
+                                                <td>
+                                                    <!-- Botón de eliminar -->
+                                                    <button class="btn btn-danger">Eliminar</button>
+                                                </td>
+                                            </tr>
+                                    <?php
+                                        }
                                     }
-                                }
-                            }
-                            ?>
-                        </tbody>
-                    </table>
-                </div>
+                                    ?>
+                                </tbody>
+                            </table>
+                        </div>
 
-        <?php
+                        <h2 class="mt-4 mb-3">Series (<?php echo $region; ?>)</h2>
+
+                        <div class="table-responsive">
+                            <table class="table table-striped" style="background-color: #97a97c;">
+                                <thead>
+                                    <tr>
+                                        <th>ID</th>
+                                        <th>Región</th>
+                                        <th>Género</th>
+                                        <th>Título</th>
+                                        <th>Duración</th>
+                                        <th> </th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <?php
+                                    $series = $cont->getElementsByTagName('series');
+                                    foreach ($series as $serie) {
+                                        $generos = $serie->getElementsByTagName('genero');
+                                        foreach ($generos as $genero) {
+                                            $nombreGenero = $genero->getAttribute('nombre');
+                                            $titulos = $genero->getElementsByTagName('titulo');
+                                            foreach ($titulos as $titulo) {
+                                                $duracion = $titulo->getAttribute('duracion');
+                                                $nombreTitulo = $titulo->nodeValue;
+                                    ?>
+                                                <tr>
+                                                    <td>Poner id aqui</td>
+                                                    <td><?php echo $region; ?></td>
+                                                    <td><?php echo $nombreGenero; ?></td>
+                                                    <td><?php echo $nombreTitulo; ?></td>
+                                                    <td><?php echo $duracion; ?></td>
+                                                    <td>
+                                                        <!-- Botón de eliminar -->
+                                                        <button class="btn btn-danger">Eliminar</button>
+                                                    </td>
+                                                </tr>
+                                    <?php
+                                            }
+                                        }
+                                    }
+                                    ?>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+            <?php
             }
         }
-        ?>
-    </div>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+            ?>
+                </div>
+                <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 
 </html>
