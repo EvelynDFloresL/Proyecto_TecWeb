@@ -144,7 +144,7 @@
                             </table>
                         </div>
 
-                        <h2 class="mt-4 mb-3">Series (<?php echo $region; ?>)</h2>
+                        <h2 class="mt-4 mb-3">Series</h2>
 
                         <div class="table-responsive">
                             <table class="table table-striped" style="background-color: #97a97c;">
