@@ -31,7 +31,6 @@
         <h1 class="mt-4 mb-4 text-center">Peliculas y Series</h1>
         <?php
         libxml_use_internal_errors(true);
-
         // Validar el XML con el XSD
         $xml = new DOMDocument();
         $xml->load('catalogovod.xml');
@@ -48,18 +47,58 @@
 
         $xml->load('catalogovod.xml'); // Recargar el XML para procesar después de la validación
 
+        // Incluir archivo de conexión a la base de datos
+        include 'database.php';
+
         // Procesar y mostrar contenido en HTML5
         $cuentas = $xml->getElementsByTagName('cuenta');
         foreach ($cuentas as $cuenta) {
             $correo = $cuenta->getAttribute('correo');
-            echo "<p>Correo: $correo</p>";
+
+            // Verificar si el correo ya existe en la tabla 'cuenta'
+            $result = $conn->query("SELECT id_cuenta FROM cuenta WHERE correo = '$correo'");
+
+            if ($result->num_rows > 0) {
+                // El correo ya existe, no es necesario insertar nuevamente
+                $row = $result->fetch_assoc();
+                $id_cuenta = $row['id_cuenta'];
+            } else {
+                // El correo no existe, insertar en la tabla 'cuenta'
+                $sql = "INSERT INTO cuenta (correo) VALUES ('$correo')";
+                $conn->query($sql);
+
+                // Obtener el id_cuenta correspondiente
+                $result = $conn->query("SELECT id_cuenta FROM cuenta WHERE correo = '$correo'");
+                $row = $result->fetch_assoc();
+                $id_cuenta = $row['id_cuenta'];
+                //ID_cuenta: $id_cuenta<br>
+            }
 
             $perfiles = $cuenta->getElementsByTagName('perfil');
             foreach ($perfiles as $perfil) {
                 $usuario = $perfil->getAttribute('usuario');
                 $idioma = $perfil->getAttribute('idioma');
-                echo "<p>Usuario: $usuario <br>
+                echo "<p>Correo: $correo<br> 
+                Usuario: $usuario <br>
                 Idioma: $idioma</p>";
+        
+                // Verificar si el perfil ya existe en la tabla 'perfiles'
+                $resultado = $conn->query("SELECT id_perfil FROM perfiles WHERE usuario = '$usuario' AND idioma = '$idioma'");
+
+                if ($resultado->num_rows > 0) {
+                    // El perfil ya existe, obtener el id_perfil
+                    $row = $resultado->fetch_assoc();
+                    $id_perfil = $row['id_perfil'];
+                    //echo "<p>ID_perfil: $id_perfil</p>";
+                } else {
+                    // El perfil no existe, insertar en la tabla 'perfiles'
+                    $sql = "INSERT INTO perfiles (usuario, idioma, id_cuenta) VALUES ('$usuario', '$idioma','$id_cuenta')";
+                    $conn->query($sql);
+                    // Obtener el id_perfil correspondiente
+                    $result = $conn->query("SELECT id_perfil FROM perfiles WHERE usuario = '$usuario' AND idioma = '$idioma'");
+                    $row = $result->fetch_assoc();
+                    $id_perfil = $row['id_perfil'];
+                }
             }
         }
 
@@ -137,7 +176,21 @@
                                                 </td>
                                             </tr>
                                     <?php
+                                        //Asignar un tipo Peliculas = 1
+                                        $tipo = "1";
+                                        //$duracion es una cadena en formato hh:mm:ss
+                                        list($horas, $minutos, $segundos) = explode(':', $duracion);
+                                        $time = ($horas * 3600) + ($minutos * 60) + $segundos;
+                                        // Verificar si la película ya existe en la tabla 'contenido'
+                                        $result = $conn->query("SELECT id_contenido FROM contenido WHERE tipo = '1' AND region = '$region' AND genero = '$nombreGenero' AND titulo = '$nombreTitulo' AND duracion = '$time'");
+                                        if ($result->num_rows == 0) {
+                                            // La película no existe, insertar en la tabla 'contenido'
+                                            $sql = "INSERT INTO contenido(tipo, region, genero, titulo, duracion) VALUES ('$tipo','$region', '$nombreGenero', '$nombreTitulo', '$time')";
+                                            $conn->query($sql);
                                         }
+
+                                        }
+                                        
                                     }
                                     ?>
                                 </tbody>
@@ -182,6 +235,18 @@
                                                     </td>
                                                 </tr>
                                     <?php
+                                        //Asignar un tipo Series = 2
+                                        $tipo = "2";
+                                        //$duracion es una cadena en formato hh:mm:ss
+                                        list($horas, $minutos, $segundos) = explode(':', $duracion);
+                                        $time = ($horas * 3600) + ($minutos * 60) + $segundos;
+                                        // Verificar si la serie ya existe en la tabla 'contenido'
+                                        $result = $conn->query("SELECT id_contenido FROM contenido WHERE tipo = '2' AND region = '$region' AND genero = '$nombreGenero' AND titulo = '$nombreTitulo' AND duracion = '$time'");
+                                        if ($result->num_rows == 0) {
+                                            // La película no existe, insertar en la tabla 'contenido'
+                                            $sql = "INSERT INTO contenido(tipo, region, genero, titulo, duracion) VALUES ('$tipo','$region', '$nombreGenero', '$nombreTitulo', '$time')";
+                                            $conn->query($sql);
+                                        }
                                             }
                                         }
                                     }
@@ -191,10 +256,13 @@
                         </div>
                     </div>
             <?php
+
             }
         }
-            ?>
-                </div>
+        // Cierra la conexión a la base de datos
+        $conn->close();
+    ?>
+                     </div>
                 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 
