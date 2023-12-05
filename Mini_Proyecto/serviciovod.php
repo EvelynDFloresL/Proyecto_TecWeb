@@ -169,6 +169,9 @@
                                                 $row = $resultado->fetch_assoc();
                                                 $id_contenido = $row['id_contenido'];
                                                 }
+                                            else{//cuando se inicia por primera vez, para que no genere error
+                                                $id_contenido = '';
+                                            }
                                             ?>
                                             <tr>
                                                 <td><?php echo $id_contenido; ?></td>
@@ -228,7 +231,11 @@
                                             if ($resultado->num_rows > 0) {
                                                 $row = $resultado->fetch_assoc();
                                                 $id_contenido = $row['id_contenido'];
-                                                }  
+                                                } 
+                                                //cuando se inicia por primera vez, para que no genere error
+                                                else{
+                                                    $id_contenido = '';
+                                                }
                                             ?>
                                                 <tr>
                                                     <td><?php echo $id_contenido; ?></td>
