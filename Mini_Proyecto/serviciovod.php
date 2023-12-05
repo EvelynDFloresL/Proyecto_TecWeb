@@ -78,9 +78,9 @@
             foreach ($perfiles as $perfil) {
                 $usuario = $perfil->getAttribute('usuario');
                 $idioma = $perfil->getAttribute('idioma');
-                echo "<p>Correo: $correo<br> 
-                Usuario: $usuario <br>
-                Idioma: $idioma</p>";
+                echo "<p><b>Correo:</b> $correo<br> 
+                <b>Usuario:</b> $usuario <br>
+                <b>Idioma:</b> $idioma</p>";
         
                 // Verificar si el perfil ya existe en la tabla 'perfiles'
                 $resultado = $conn->query("SELECT id_perfil FROM perfiles WHERE usuario = '$usuario' AND idioma = '$idioma'");
@@ -163,9 +163,15 @@
                                         foreach ($titulos as $titulo) {
                                             $duracion = $titulo->getAttribute('duracion');
                                             $nombreTitulo = $titulo->nodeValue;
-                                    ?>
+                                            // Obtener el id_contenido
+                                            $resultado = $conn->query("SELECT id_contenido FROM contenido WHERE tipo = 'pelicula' AND region = '$region' AND genero = '$nombreGenero' AND titulo = '$nombreTitulo' AND duracion = '$duracion'");
+                                            if ($resultado->num_rows > 0) {
+                                                $row = $resultado->fetch_assoc();
+                                                $id_contenido = $row['id_contenido'];
+                                                }
+                                            ?>
                                             <tr>
-                                                <td>Poner id aqui</td>
+                                                <td><?php echo $id_contenido; ?></td>
                                                 <td><?php echo $region; ?></td>
                                                 <td><?php echo $nombreGenero; ?></td>
                                                 <td><?php echo $nombreTitulo; ?></td>
@@ -177,17 +183,15 @@
                                             </tr>
                                     <?php
                                         //Asignar un tipo Peliculas = 1
-                                        $tipo = "1";
+                                        $tipo = "pelicula";
                                         // Verificar si la película ya existe en la tabla 'contenido'
-                                        $result = $conn->query("SELECT id_contenido FROM contenido WHERE tipo = '1' AND region = '$region' AND genero = '$nombreGenero' AND titulo = '$nombreTitulo' AND duracion = '$duracion'");
+                                        $result = $conn->query("SELECT id_contenido FROM contenido WHERE tipo = 'pelicula' AND region = '$region' AND genero = '$nombreGenero' AND titulo = '$nombreTitulo' AND duracion = '$duracion'");
                                         if ($result->num_rows == 0) {
                                             // La película no existe, insertar en la tabla 'contenido'
-                                            $sql = "INSERT INTO contenido(tipo, region, genero, titulo, duracion) VALUES ('$tipo','$region', '$nombreGenero', '$nombreTitulo', '$duracion')";
+                                            $sql = "INSERT INTO contenido(tipo, region, genero, titulo, duracion, id_cuenta) VALUES ('$tipo','$region', '$nombreGenero', '$nombreTitulo', '$duracion', '$id_cuenta')";
                                             $conn->query($sql);
                                         }
-
-                                        }
-                                        
+                                        }         
                                     }
                                     ?>
                                 </tbody>
@@ -219,9 +223,15 @@
                                             foreach ($titulos as $titulo) {
                                                 $duracion = $titulo->getAttribute('duracion');
                                                 $nombreTitulo = $titulo->nodeValue;
-                                    ?>
+                                                // Obtener el id_contenido
+                                            $resultado = $conn->query("SELECT id_contenido FROM contenido WHERE tipo = 'serie' AND region = '$region' AND genero = '$nombreGenero' AND titulo = '$nombreTitulo' AND duracion = '$duracion'");
+                                            if ($resultado->num_rows > 0) {
+                                                $row = $resultado->fetch_assoc();
+                                                $id_contenido = $row['id_contenido'];
+                                                }  
+                                            ?>
                                                 <tr>
-                                                    <td>Poner id aqui</td>
+                                                    <td><?php echo $id_contenido; ?></td>
                                                     <td><?php echo $region; ?></td>
                                                     <td><?php echo $nombreGenero; ?></td>
                                                     <td><?php echo $nombreTitulo; ?></td>
@@ -233,12 +243,12 @@
                                                 </tr>
                                     <?php
                                         //Asignar un tipo Series = 2
-                                        $tipo = "2";
+                                        $tipo = "serie";
                                         // Verificar si la serie ya existe en la tabla 'contenido'
-                                        $result = $conn->query("SELECT id_contenido FROM contenido WHERE tipo = '2' AND region = '$region' AND genero = '$nombreGenero' AND titulo = '$nombreTitulo' AND duracion = '$duracion'");
+                                        $result = $conn->query("SELECT id_contenido FROM contenido WHERE tipo = 'serie' AND region = '$region' AND genero = '$nombreGenero' AND titulo = '$nombreTitulo' AND duracion = '$duracion'");
                                         if ($result->num_rows == 0) {
                                             // La película no existe, insertar en la tabla 'contenido'
-                                            $sql = "INSERT INTO contenido(tipo, region, genero, titulo, duracion) VALUES ('$tipo','$region', '$nombreGenero', '$nombreTitulo', '$duracion')";
+                                            $sql = "INSERT INTO contenido(tipo, region, genero, titulo, duracion, id_cuenta) VALUES ('$tipo','$region', '$nombreGenero', '$nombreTitulo', '$duracion', '$id_cuenta')";
                                             $conn->query($sql);
                                         }
                                             }
