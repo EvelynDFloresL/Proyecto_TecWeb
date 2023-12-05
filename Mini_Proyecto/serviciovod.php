@@ -178,14 +178,11 @@
                                     <?php
                                         //Asignar un tipo Peliculas = 1
                                         $tipo = "1";
-                                        //$duracion es una cadena en formato hh:mm:ss
-                                        list($horas, $minutos, $segundos) = explode(':', $duracion);
-                                        $time = ($horas * 3600) + ($minutos * 60) + $segundos;
                                         // Verificar si la película ya existe en la tabla 'contenido'
-                                        $result = $conn->query("SELECT id_contenido FROM contenido WHERE tipo = '1' AND region = '$region' AND genero = '$nombreGenero' AND titulo = '$nombreTitulo' AND duracion = '$time'");
+                                        $result = $conn->query("SELECT id_contenido FROM contenido WHERE tipo = '1' AND region = '$region' AND genero = '$nombreGenero' AND titulo = '$nombreTitulo' AND duracion = '$duracion'");
                                         if ($result->num_rows == 0) {
                                             // La película no existe, insertar en la tabla 'contenido'
-                                            $sql = "INSERT INTO contenido(tipo, region, genero, titulo, duracion) VALUES ('$tipo','$region', '$nombreGenero', '$nombreTitulo', '$time')";
+                                            $sql = "INSERT INTO contenido(tipo, region, genero, titulo, duracion) VALUES ('$tipo','$region', '$nombreGenero', '$nombreTitulo', '$duracion')";
                                             $conn->query($sql);
                                         }
 
@@ -237,14 +234,11 @@
                                     <?php
                                         //Asignar un tipo Series = 2
                                         $tipo = "2";
-                                        //$duracion es una cadena en formato hh:mm:ss
-                                        list($horas, $minutos, $segundos) = explode(':', $duracion);
-                                        $time = ($horas * 3600) + ($minutos * 60) + $segundos;
                                         // Verificar si la serie ya existe en la tabla 'contenido'
-                                        $result = $conn->query("SELECT id_contenido FROM contenido WHERE tipo = '2' AND region = '$region' AND genero = '$nombreGenero' AND titulo = '$nombreTitulo' AND duracion = '$time'");
+                                        $result = $conn->query("SELECT id_contenido FROM contenido WHERE tipo = '2' AND region = '$region' AND genero = '$nombreGenero' AND titulo = '$nombreTitulo' AND duracion = '$duracion'");
                                         if ($result->num_rows == 0) {
                                             // La película no existe, insertar en la tabla 'contenido'
-                                            $sql = "INSERT INTO contenido(tipo, region, genero, titulo, duracion) VALUES ('$tipo','$region', '$nombreGenero', '$nombreTitulo', '$time')";
+                                            $sql = "INSERT INTO contenido(tipo, region, genero, titulo, duracion) VALUES ('$tipo','$region', '$nombreGenero', '$nombreTitulo', '$duracion')";
                                             $conn->query($sql);
                                         }
                                             }
