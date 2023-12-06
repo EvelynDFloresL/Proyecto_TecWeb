@@ -11,6 +11,7 @@
             <genero nombre="Ciencia Ficcion">
                 <titulo duracion="01:40:00">Blade Runner</titulo>
                 <titulo duracion="02:06:00">Indiana Jones</titulo>
+                <titulo duracion="01:46:00">Tron: El legado</titulo>
             </genero>
             <genero nombre="Romance">
                 <titulo duracion="02:04:00">Amor entre dos extremos</titulo>
